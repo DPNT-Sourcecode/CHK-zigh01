@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class CheckoutSolution {
-    class Offer {
+    class Offer implements Comparable {
         private int number;
         private int price;
 
@@ -16,10 +16,15 @@ public class CheckoutSolution {
             this.number = number;
             this.price = price;
         }
+
+        @Override
+        public int comp
     }
 
     private Map<Character, Integer> priceMap;
     private Map<Character, Offer> offers;
+
+
 
     public CheckoutSolution() {
         priceMap = Map.of(
@@ -67,6 +72,7 @@ public class CheckoutSolution {
         return price;
     }
 }
+
 
 
 
