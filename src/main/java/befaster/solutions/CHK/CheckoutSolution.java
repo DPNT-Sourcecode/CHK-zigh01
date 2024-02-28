@@ -75,6 +75,7 @@ public class CheckoutSolution {
         Map<Character, Integer> basket = new HashMap<>();
         Set<Character> offerableSkusInBasket = new HashSet<>();
         int price = 0;
+
         for (int i = 0; i < skus.length(); i++) {
             char current = skus.charAt(i);
             if (!priceMap.containsKey(current)) {
@@ -91,34 +92,86 @@ public class CheckoutSolution {
             price += priceMap.get(current);
         }
 
-        while (offerableSkusInBasket.size() > 0) {
-            for (Entry<Character, Integer> skuAndNum: maybeOfferCount.entrySet()) {
-                    char sku = skuAndNum.getKey();
+        List<Character> getOneFreeOffers = offers.getOrDefault(Type.GET_ONE_FREE, new ArrayList<>());
+
+        for (Character offerSku: getOneFreeOffers) {
+            if (offerableSkusInBasket.contains(offerSku)) {
+                while (offerableSkusInBasket.size() > 0) {
+                    char sku = offerSku;
+                    int number = maybeOfferCount.get(sku);
                     List<Offer> offerList = offersDetails.get(sku);
                     boolean matchingOffer = false;
                     for (Offer offer: offerList) {
-                        if (offer.number <= skuAndNum.getValue()) {
+                        if (offer.number <= number) {
                             matchingOffer = true;
-                            maybeOfferCount.put(sku, skuAndNum.getValue() - offer.number);
-                            if (offer.type == Type.DISCOUNT) {
+                            maybeOfferCount.put(sku, number - offer.number);
+                            int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
+                            if (numberOfRemovableItems != 0) {
+                                basket.put(offer.freeItem, numberOfRemovableItems - 1);
                                 price -= offer.price;
-                            } else {
-                                int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
-                                if (numberOfRemovableItems != 0) {
-                                    basket.put(offer.freeItem, numberOfRemovableItems - 1);
-                                    price -= offer.price;
-                                }
                             }
                         }
                     }
                     if (!matchingOffer) {
                         offerableSkusInBasket.remove(sku);
                     }
+                }
             }
         }
+
+        List<Character> discountSkus = offers.getOrDefault(Type.DISCOUNT, new ArrayList<>());
+        for (Character offerSku: discountSkus) {
+            if (offerableSkusInBasket.contains(offerSku)) {
+                while (offerableSkusInBasket.size() > 0) {
+                    char sku = offerSku;
+                    int number = maybeOfferCount.get(sku);
+                    List<Offer> offerList = offersDetails.get(sku);
+                    boolean matchingOffer = false;
+                    for (Offer offer: offerList) {
+                        if (offer.number <= number) {
+                            matchingOffer = true;
+                            maybeOfferCount.put(sku, number - offer.number);
+                            if (offer.type == Type.DISCOUNT) {
+                                price -= offer.price;
+                            }
+                        }
+                    }
+                    if (!matchingOffer) {
+                        offerableSkusInBasket.remove(sku);
+                    }
+                }
+            }
+        }
+
+//        while (offerableSkusInBasket.size() > 0) {
+//            for (Entry<Character, Integer> skuAndNum: maybeOfferCount.entrySet()) {
+//                    char sku = skuAndNum.getKey();
+//                    List<Offer> offerList = offersDetails.get(sku);
+//                    boolean matchingOffer = false;
+//                    for (Offer offer: offerList) {
+//                        if (offer.number <= skuAndNum.getValue()) {
+//                            matchingOffer = true;
+//                            maybeOfferCount.put(sku, skuAndNum.getValue() - offer.number);
+//                            if (offer.type == Type.DISCOUNT) {
+//                                price -= offer.price;
+//                            } else {
+//                                int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
+//                                if (numberOfRemovableItems != 0) {
+//                                    basket.put(offer.freeItem, numberOfRemovableItems - 1);
+//                                    price -= offer.price;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if (!matchingOffer) {
+//                        offerableSkusInBasket.remove(sku);
+//                    }
+//            }
+//        }
 
         return price;
     }
 }
+
 
 
