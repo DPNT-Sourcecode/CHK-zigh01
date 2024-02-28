@@ -32,19 +32,28 @@ public class CheckoutSolution {
     }
 
     public Integer checkout(String skus) {
-        Map<Character, Integer> basketCount = new HashMap<>();
+        Map<Character, Integer> maybeOfferCount = new HashMap<>();
         int price = 0;
         for (int i = 0; i < skus.length(); i++) {
             char current = skus.charAt(i);
             if (!priceMap.containsKey(current)) {
                 return -1;
             }
-            basketCount.put(current, basketCount.getOrDefault(current, 0) + 1);
+
+            if (offers.containsKey(current)) {
+                maybeOfferCount.put(current, maybeOfferCount.getOrDefault(current, 0) + 1);
+            }
             price += priceMap.get(current);
         }
+
+        while (maybeOfferCount.size() > 0) {
+            maybeOfferCount.entrySet().forEach(skuAndPrice -> {
+                if (offers.get(skuAndPrice.getKey()) > skuAndPrice.getValue()) {
+                    maybeOfferCount.remo
+                }
+            });
+        }
+
+        return price;
     }
 }
-
-
-
-
