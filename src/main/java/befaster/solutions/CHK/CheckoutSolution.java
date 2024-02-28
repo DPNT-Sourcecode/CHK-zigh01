@@ -96,15 +96,15 @@ public class CheckoutSolution {
 
         for (Character offerSku: getOneFreeOffers) {
             if (offerableSkusInBasket.contains(offerSku)) {
-                while (offerableSkusInBasket.size() > 0) {
+                while (basket.size() > 0) {
                     char sku = offerSku;
-                    int number = maybeOfferCount.get(sku);
+                    int number = basket.getOrDefault(sku,0);
                     List<Offer> offerList = offersDetails.get(sku);
                     boolean matchingOffer = false;
                     for (Offer offer: offerList) {
                         if (offer.number <= number) {
                             matchingOffer = true;
-                            maybeOfferCount.put(sku, number - offer.number);
+                            basket.put(sku, number - offer.number);
                             int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
                             if (numberOfRemovableItems != 0) {
                                 basket.put(offer.freeItem, numberOfRemovableItems - 1);
@@ -124,13 +124,13 @@ public class CheckoutSolution {
             if (offerableSkusInBasket.contains(offerSku)) {
                 while (offerableSkusInBasket.size() > 0) {
                     char sku = offerSku;
-                    int number = maybeOfferCount.get(sku);
+                    int number = basket.get(sku);
                     List<Offer> offerList = offersDetails.get(sku);
                     boolean matchingOffer = false;
                     for (Offer offer: offerList) {
                         if (offer.number <= number) {
                             matchingOffer = true;
-                            maybeOfferCount.put(sku, number - offer.number);
+                            basket.put(sku, number - offer.number);
                             if (offer.type == Type.DISCOUNT) {
                                 price -= offer.price;
                             }
@@ -172,6 +172,7 @@ public class CheckoutSolution {
         return price;
     }
 }
+
 
 
 
