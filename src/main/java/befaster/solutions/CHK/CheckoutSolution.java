@@ -108,7 +108,6 @@ public class CheckoutSolution {
         offersDetails.get('N').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('M'), 'M'));
         offersDetails.get('R').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('Q'), 'Q'));
         offersDetails.get('U').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('U'), 'U'));
-
     }
 
     public Integer checkout(String skus) {
@@ -194,4 +193,5 @@ public class CheckoutSolution {
         return deductions;
     }
 }
+
 

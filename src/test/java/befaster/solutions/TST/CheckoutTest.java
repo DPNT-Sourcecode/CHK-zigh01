@@ -3,6 +3,8 @@ package befaster.solutions.TST;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import befaster.solutions.CHK.CheckoutSolution;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -108,9 +110,46 @@ public class CheckoutTest {
   }
 
   @Test
+  public void allSkusWork() {
+    CheckoutSolution solution = new CheckoutSolution();
+    Map<Character, Integer> priceMap = new HashMap<>();
+    priceMap.put('A', 50);
+    priceMap.put('B', 30);
+    priceMap.put('C', 20);
+    priceMap.put('D', 15);
+    priceMap.put('E', 40);
+    priceMap.put('F', 10);
+    priceMap.put('G', 20);
+    priceMap.put('H', 10);
+    priceMap.put('I', 35);
+    priceMap.put('J', 60);
+    priceMap.put('K', 80);
+    priceMap.put('L', 90);
+    priceMap.put('M', 15);
+    priceMap.put('N', 40);
+    priceMap.put('O', 10);
+    priceMap.put('P', 50);
+    priceMap.put('Q', 30);
+    priceMap.put('R', 50);
+    priceMap.put('S', 30);
+    priceMap.put('T', 20);
+    priceMap.put('U', 40);
+    priceMap.put('V', 50);
+    priceMap.put('W', 20);
+    priceMap.put('X', 90);
+    priceMap.put('Y', 10);
+    priceMap.put('Z', 50);
+
+    for (Character sku: priceMap.keySet()) {
+      assertThat(solution.checkout(sku + ""), equalTo(priceMap.get(sku)));
+    }
+  }
+
+  @Test
   public void testCheckoutWithInvalid() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("aaabcd");
     assertThat(price, equalTo(-1));
   }
 }
+
