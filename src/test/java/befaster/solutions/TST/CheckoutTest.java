@@ -170,8 +170,8 @@ public class CheckoutTest {
   public void testCheckoutWithBundleWithAllOffers() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("XSTAAAAAABBBCDEEFFF");
-    45 + 250 + 35 + 45 + 
-    assertThat(price, equalTo(90));
+
+    assertThat(price, equalTo(475));
   }
 
   @Test
@@ -181,5 +181,6 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
+
 
 
