@@ -96,7 +96,7 @@ public class CheckoutSolution {
 
         for (Character offerSku: getOneFreeOffers) {
             if (offerableSkusInBasket.contains(offerSku)) {
-                while (basket.size() > 0) {
+                while (offerableSkusInBasket.size() > 0) {
                     char sku = offerSku;
                     int number = basket.getOrDefault(sku,0);
                     List<Offer> offerList = offersDetails.get(sku);
@@ -108,6 +108,9 @@ public class CheckoutSolution {
                             int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
                             if (numberOfRemovableItems != 0) {
                                 basket.put(offer.freeItem, numberOfRemovableItems - 1);
+                                if (numberOfRemovableItems - 1 == 0) {
+                                    offerableSkusInBasket.remove(offer.freeItem);
+                                }
                                 price -= offer.price;
                             }
                         }
@@ -172,6 +175,7 @@ public class CheckoutSolution {
         return price;
     }
 }
+
 
 
 
