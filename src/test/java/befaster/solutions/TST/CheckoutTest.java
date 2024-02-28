@@ -45,6 +45,12 @@ public class CheckoutTest {
   }
 
   @Test
+  public void testCheckoutWithSoManyA() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("AAAAAAAAAA");
+    assertThat(price, equalTo(400));
+  }
+  @Test
   public void testCheckoutWithAFreeItemTypeWithFreeItem() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("EEB");
@@ -86,4 +92,5 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
+
 

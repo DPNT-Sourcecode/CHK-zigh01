@@ -154,10 +154,10 @@ public class CheckoutSolution {
             List<Offer> offerList = offersDetails.get(sku);
             boolean matchingOffer = false;
             for (Offer offer: offerList) {
-                if (offer.number <= number) {
+                while (offer.number <= number) {
                     matchingOffer = true;
-                    basket.put(sku, number - offer.number);
                     number = number - offer.number;
+                    basket.put(sku, number);
                     if (offer.type == Type.DISCOUNT) {
                         deductions += offer.price;
                     } else {
@@ -179,5 +179,6 @@ public class CheckoutSolution {
         return deductions;
     }
 }
+
 
 
