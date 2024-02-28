@@ -150,6 +150,13 @@ public class CheckoutTest {
     int price = solution.checkout("XTY");
     assertThat(price, equalTo(45));
   }
+
+  @Test
+  public void testCheckoutWithBundleWithExtra() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("XSTY");
+    assertThat(price, equalTo(62));
+  }
   @Test
   public void testCheckoutWithInvalid() {
     CheckoutSolution solution = new CheckoutSolution();
@@ -157,3 +164,4 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
+

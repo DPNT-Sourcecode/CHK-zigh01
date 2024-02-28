@@ -133,7 +133,7 @@ public class CheckoutSolution {
     Map<Character, Integer> basket = new HashMap<>();
     Set<Character> offerableSkusInBasket = new HashSet<>();
     int price = 0;
-    Queue<int[]> threeBundleRemovables = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+    Queue<int[]> threeBundleRemovables = new PriorityQueue<>((a,b) -> b[1] - a[1]);
     for (int i = 0; i < skus.length(); i++) {
       char current = skus.charAt(i);
       if (!priceMap.containsKey(current)) {
@@ -153,13 +153,18 @@ public class CheckoutSolution {
 
     List<Character> getOneFreeOffers = offers.getOrDefault(Type.GET_ONE_FREE, new ArrayList<>());
 
+    price -= getBundlingDeductions(
+        offerableSkusInBasket,
+        basket,
+        threeBundleRemovables
+    );
+
     for (Character offerSku : getOneFreeOffers) {
       if (offerableSkusInBasket.contains(offerSku)) {
         price -= getDeductionsFromOffer(
             offerableSkusInBasket,
             offerSku,
-            basket,
-            threeBundleRemovables
+            basket
         );
       }
     }
@@ -170,8 +175,7 @@ public class CheckoutSolution {
         price -= getDeductionsFromOffer(
             offerableSkusInBasket,
             offerSku,
-            basket,
-            threeBundleRemovables
+            basket
         );
       }
     }
@@ -179,15 +183,12 @@ public class CheckoutSolution {
     return price;
   }
 
-  private int getDeductionsFromOffer(
+  private int getBundlingDeductions(
       Set<Character> offerableSkusInBasket,
-      Character offerSku,
       Map<Character, Integer> basket,
       Queue<int[]> threeBundleRemovables
   ) {
-    
     int deductions = 0;
-    
     while (threeBundleRemovables.size() >= 3) {
       for (int i = 0; i < 3; i++) {
         int[] skuAndPriceIntRep = threeBundleRemovables.poll();
@@ -205,7 +206,15 @@ public class CheckoutSolution {
       }
       deductions -= 45;
     }
+    return deductions;
+  }
 
+  private int getDeductionsFromOffer(
+      Set<Character> offerableSkusInBasket,
+      Character offerSku,
+      Map<Character, Integer> basket
+  ) {
+    int deductions = 0;
     while (offerableSkusInBasket.contains(offerSku)) {
       char sku = offerSku;
       int number = basket.getOrDefault(sku, 0);
@@ -238,3 +247,4 @@ public class CheckoutSolution {
     return deductions;
   }
 }
+
