@@ -3,6 +3,7 @@ package befaster.solutions.CHK;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class CheckoutSolution {
     class Offer {
@@ -47,21 +48,21 @@ public class CheckoutSolution {
         }
 
         while (maybeOfferCount.size() > 0) {
-            maybeOfferCount.entrySet().forEach(skuAndPrice -> {
-                char sku = skuAndPrice.getKey();
-                Offer offer = offers.get(sku);
-                if (offer.number > skuAndPrice.getValue()) {
-                    maybeOfferCount.remove(skuAndPrice.getKey());
-                    return;
-                }
-                maybeOfferCount.put(sku, skuAndPrice.getValue() - offer.number);
-                price -= priceMap.get(sku) * offer.number;
-                price += offer.price;
-
-            });
+            for (Entry<Character, Integer> skuAndPrice: maybeOfferCount.entrySet()) {
+                    char sku = skuAndPrice.getKey();
+                    Offer offer = offers.get(sku);
+                    if (offer.number > skuAndPrice.getValue()) {
+                        maybeOfferCount.remove(skuAndPrice.getKey());
+                        continue;
+                    }
+                    maybeOfferCount.put(sku, skuAndPrice.getValue() - offer.number);
+                    price -= priceMap.get(sku) * offer.number;
+                    price += offer.price;
+            }
         }
 
         return price;
     }
 }
+
 
