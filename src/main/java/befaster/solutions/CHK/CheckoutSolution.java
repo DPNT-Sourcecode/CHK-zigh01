@@ -2,13 +2,12 @@ package befaster.solutions.CHK;
 
 
 import befaster.solutions.CHK.CheckoutSolution.Offer.Type;
-import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -20,7 +19,7 @@ public class CheckoutSolution {
     enum Type {
       DISCOUNT,
       GET_ONE_FREE,
-      BUNDLED_ITEMS
+      BUNDLED_ITEMS_3
     }
 
     private int number;
@@ -98,7 +97,7 @@ public class CheckoutSolution {
     offers = Map.of(
         Type.GET_ONE_FREE, List.of('E', 'F', 'N', 'R', 'U'),
         Type.DISCOUNT, List.of('A', 'B', 'H', 'K', 'P', 'Q', 'V'),
-        Type.BUNDLED_ITEMS, List.of('S', 'T', 'X', 'Y', 'Z')
+        Type.BUNDLED_ITEMS_3, List.of('S', 'T', 'X', 'Y', 'Z')
     );
 
     offersDetails.get('A').add(new Offer(Type.DISCOUNT, 5, priceMap.get('A') * 5 - 200, null));
@@ -134,14 +133,26 @@ public class CheckoutSolution {
     Map<Character, Integer> basket = new HashMap<>();
     Set<Character> offerableSkusInBasket = new HashSet<>();
     int price = 0;
-
+//    List<Character> removableCharacters = offer.discountedItems.stream().toList();
+    Queue<int[]> bestRemovables = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+//    for (char removable: removableCharacters) {
+//      bestRemovables.add(new int[] { removable - 'A', priceMap.get(removable)});
+//    }
+//
+//    if (bestRemovables.size() >= offer.number) {
+//      for (int i = 0; i < offer.number; i++) {
+//        int[] removableInterface =
+//      }
+//    }
     for (int i = 0; i < skus.length(); i++) {
       char current = skus.charAt(i);
       if (!priceMap.containsKey(current)) {
         return -1;
       }
 
-      if (offersDetails.containsKey(current)) {
+      if (offers.get(Type.BUNDLED_ITEMS).contains(current)) {
+        bestRemovables.add(new int[] { current - 'A', priceMap.get(current)});
+      } else if (offersDetails.containsKey(current)) {
         offerableSkusInBasket.add(current);
       }
 
@@ -216,6 +227,7 @@ public class CheckoutSolution {
     return deductions;
   }
 }
+
 
 
 
