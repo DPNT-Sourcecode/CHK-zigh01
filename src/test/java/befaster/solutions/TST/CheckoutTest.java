@@ -114,7 +114,3 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
-
-
-
-

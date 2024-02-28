@@ -156,7 +156,3 @@ public class CheckoutSolution {
         return deductions;
     }
 }
-
-
-
-
