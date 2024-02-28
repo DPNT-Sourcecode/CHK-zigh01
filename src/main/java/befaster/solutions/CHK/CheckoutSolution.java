@@ -157,6 +157,7 @@ public class CheckoutSolution {
                 if (offer.number <= number) {
                     matchingOffer = true;
                     basket.put(sku, number - offer.number);
+                    number = number - offer.number;
                     if (offer.type == Type.DISCOUNT) {
                         deductions += offer.price;
                     } else {
@@ -178,4 +179,5 @@ public class CheckoutSolution {
         return deductions;
     }
 }
+
 

@@ -73,9 +73,17 @@ public class CheckoutTest {
   }
 
   @Test
+  public void testCheckoutWithAFreeItemTypeWithEnoughFreeItemsOrderIndependent() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("BBEEEE");
+    assertThat(price, equalTo(160));
+  }
+
+  @Test
   public void testCheckoutWithInvalid() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("aaabcd");
     assertThat(price, equalTo(-1));
   }
 }
+
