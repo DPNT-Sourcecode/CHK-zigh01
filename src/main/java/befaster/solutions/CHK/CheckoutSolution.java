@@ -96,7 +96,7 @@ public class CheckoutSolution {
 
         for (Character offerSku: getOneFreeOffers) {
             if (offerableSkusInBasket.contains(offerSku)) {
-                while (offerableSkusInBasket.size() > 0) {
+                while (offerableSkusInBasket.contains(offerSku)) {
                     char sku = offerSku;
                     int number = basket.getOrDefault(sku,0);
                     List<Offer> offerList = offersDetails.get(sku);
@@ -125,7 +125,7 @@ public class CheckoutSolution {
         List<Character> discountSkus = offers.getOrDefault(Type.DISCOUNT, new ArrayList<>());
         for (Character offerSku: discountSkus) {
             if (offerableSkusInBasket.contains(offerSku)) {
-                while (offerableSkusInBasket.size() > 0) {
+                while (offerableSkusInBasket.contains(offerSku)) {
                     char sku = offerSku;
                     int number = basket.get(sku);
                     List<Offer> offerList = offersDetails.get(sku);
@@ -175,8 +175,3 @@ public class CheckoutSolution {
         return price;
     }
 }
-
-
-
-
-
