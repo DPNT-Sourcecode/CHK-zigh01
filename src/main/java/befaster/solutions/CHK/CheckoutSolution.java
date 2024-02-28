@@ -1,6 +1,7 @@
 package befaster.solutions.CHK;
 
 
+import befaster.solutions.CHK.CheckoutSolution.Offer.Type;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class CheckoutSolution {
 
         private Type type;
 
-        public Offer(int number, int price, Character freeItem, Type type) {
+        public Offer(Type type, int number, int price, Character freeItem) {
             this.number = number;
             this.price = price;
             this.freeItem = freeItem;
@@ -54,7 +55,8 @@ public class CheckoutSolution {
             'E', new ArrayList<>()
         );
 
-        offers.get('A').add(new Offer())
+        offers.get('A').add(new Offer(Type.DISCOUNT, 3, 130, null));
+        offers.get('A').add(new Offer(Type.DISCOUNT, 5, 130, null));
 
     }
 
@@ -91,10 +93,3 @@ public class CheckoutSolution {
         return price;
     }
 }
-
-
-
-
-
-
-
