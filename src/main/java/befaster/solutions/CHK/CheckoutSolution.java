@@ -48,12 +48,20 @@ public class CheckoutSolution {
 
         while (maybeOfferCount.size() > 0) {
             maybeOfferCount.entrySet().forEach(skuAndPrice -> {
-                if (offers.get(skuAndPrice.getKey()) > skuAndPrice.getValue()) {
-                    maybeOfferCount.remo
+                char sku = skuAndPrice.getKey();
+                Offer offer = offers.get(sku);
+                if (offer.number > skuAndPrice.getValue()) {
+                    maybeOfferCount.remove(skuAndPrice.getKey());
+                    return;
                 }
+                maybeOfferCount.put(sku, skuAndPrice.getValue() - offer.number);
+                price -= priceMap.get(sku) * offer.number;
+                price += offer.price;
+
             });
         }
 
         return price;
     }
 }
+
