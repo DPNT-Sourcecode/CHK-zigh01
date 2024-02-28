@@ -5,8 +5,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CheckoutSolution {
+    class Offer {
+        private int number;
+        private int price;
+
+        public Offer(int number, int price) {
+            this.number = number;
+            this.price = price;
+        }
+    }
+
     private Map<Character, Integer> priceMap;
-    private Map<Character, Map<Integer, Integer>> offers;
+    private Map<Character, Offer> offers;
 
     public CheckoutSolution() {
         priceMap = Map.of(
@@ -16,14 +26,17 @@ public class CheckoutSolution {
             'D',15
         );
         offers = Map.of(
-            'A', Map.of()
-        )
+            'A', new Offer(3, 130),
+            'B', new Offer(2, 45)
+        );
     }
 
     public Integer checkout(String skus) {
-
+        Map<Character, Integer> basketCount;
+        int numberOfA = 5;
 
     }
 }
+
 
 
