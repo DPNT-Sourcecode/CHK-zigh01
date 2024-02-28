@@ -17,18 +17,19 @@ public class CheckoutSolution {
     static class Offer implements Comparable<Offer> {
         enum Type {
             DISCOUNT,
-            GET_ONE_FREE
+            GET_ONE_FREE,
+            BUNDLED_ITEMS
         }
         private int number;
         private int price;
-        private Set<Character> freeItem;
+        private Set<Character> discountedItems;
 
         private Type type;
 
-        public Offer(Type type, int number, int price, Set<Character> freeItem) {
+        public Offer(Type type, int number, int price, Set<Character> discountedItems) {
             this.number = number;
             this.price = price;
-            this.freeItem = freeItem;
+            this.discountedItems = discountedItems;
             this.type = type;
         }
 
@@ -88,7 +89,8 @@ public class CheckoutSolution {
 
         offers = Map.of(
             Type.GET_ONE_FREE, List.of('E', 'F', 'N', 'R', 'U'),
-            Type.DISCOUNT, List.of('A', 'B', 'H', 'K', 'P', 'Q', 'V')
+            Type.DISCOUNT, List.of('A', 'B', 'H', 'K', 'P', 'Q', 'V'),
+            Type.BUNDLED_ITEMS, List.of('S', 'T', 'X', 'Y', 'Z')
         );
 
         offersDetails.get('A').add(new Offer(Type.DISCOUNT, 5,   priceMap.get('A') * 5 - 200, null));
@@ -105,9 +107,15 @@ public class CheckoutSolution {
 
         offersDetails.get('E').add(new Offer(Type.GET_ONE_FREE, 2, priceMap.get('B'), Set.of('B')));
         offersDetails.get('F').add(new Offer(Type.GET_ONE_FREE, 2, priceMap.get('F'), Set.of('F')));
-        offersDetails.get('N').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('M'), Set.of('M'));
-        offersDetails.get('R').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('Q'), Set.of('Q'));
-        offersDetails.get('U').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('U'), 'U'));
+        offersDetails.get('N').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('M'), Set.of('M')));
+        offersDetails.get('R').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('Q'), Set.of('Q')));
+        offersDetails.get('U').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('U'), Set.of('U')));
+
+        offersDetails.get('S').add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        offersDetails.get('T').add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        offersDetails.get('X').add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        offersDetails.get('Y').add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        offersDetails.get('Z').add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
     }
 
     public Integer checkout(String skus) {
@@ -175,11 +183,11 @@ public class CheckoutSolution {
                     if (offer.type == Type.DISCOUNT) {
                         deductions += offer.price;
                     } else {
-                        int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
+                        int numberOfRemovableItems = basket.getOrDefault(offer.discountedItems.stream().findFirst().get(), 0);
                         if (numberOfRemovableItems != 0) {
-                            basket.put(offer.freeItem, numberOfRemovableItems - 1);
+                            basket.put(offer.discountedItems, numberOfRemovableItems - 1);
                             if (numberOfRemovableItems - 1 == 0) {
-                                offerableSkusInBasket.remove(offer.freeItem);
+                                offerableSkusInBasket.remove(offer.discountedItems);
                             }
                             deductions += offer.price;
                         }
@@ -193,3 +201,4 @@ public class CheckoutSolution {
         return deductions;
     }
 }
+
