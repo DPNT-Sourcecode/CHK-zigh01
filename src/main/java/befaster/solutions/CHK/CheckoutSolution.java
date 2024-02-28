@@ -2,8 +2,10 @@ package befaster.solutions.CHK;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class CheckoutSolution {
     class Offer {
@@ -34,6 +36,7 @@ public class CheckoutSolution {
 
     public Integer checkout(String skus) {
         Map<Character, Integer> maybeOfferCount = new HashMap<>();
+        Set<Character> offerableSkusInBasket = new HashSet<>();
         int price = 0;
         for (int i = 0; i < skus.length(); i++) {
             char current = skus.charAt(i);
@@ -47,12 +50,12 @@ public class CheckoutSolution {
             price += priceMap.get(current);
         }
 
-        while (maybeOfferCount.size() > 0) {
+        while (offerableSkusInBasket.size() > 0) {
             for (Entry<Character, Integer> skuAndPrice: maybeOfferCount.entrySet()) {
                     char sku = skuAndPrice.getKey();
                     Offer offer = offers.get(sku);
                     if (offer.number > skuAndPrice.getValue()) {
-                        maybeOfferCount.remove(skuAndPrice.getKey());
+                        offerableSkusInBasket.remove(skuAndPrice.getKey());
                         continue;
                     }
                     maybeOfferCount.put(sku, skuAndPrice.getValue() - offer.number);
@@ -64,5 +67,6 @@ public class CheckoutSolution {
         return price;
     }
 }
+
 
 
