@@ -1,8 +1,11 @@
 package befaster.solutions.CHK;
 
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
@@ -35,19 +38,24 @@ public class CheckoutSolution {
     }
 
     private Map<Character, Integer> priceMap;
-    private Map<Character, Queue<Offer>> offers;
+    private Map<Character, List<Offer>> offers;
 
     public CheckoutSolution() {
         priceMap = Map.of(
             'A', 50,
             'B', 30,
             'C', 20,
-            'D',15
+            'D', 15,
+            'E', 40
         );
         offers = Map.of(
-            'A', new Offer(3, new PriorityQueue<>()),
-            'B', new Offer(2, priceMap.get('B') * 2 - 45)
+            'A', new ArrayList<>(),
+            'B', new ArrayList<>(),
+            'E', new ArrayList<>()
         );
+
+        offers.get('A').add(new Offer())
+
     }
 
     public Integer checkout(String skus) {
@@ -83,6 +91,7 @@ public class CheckoutSolution {
         return price;
     }
 }
+
 
 
 
