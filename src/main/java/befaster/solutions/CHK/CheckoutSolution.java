@@ -32,11 +32,19 @@ public class CheckoutSolution {
     }
 
     public Integer checkout(String skus) {
-        Map<Character, Integer> basketCount;
-        int numberOfA = 5;
-
+        Map<Character, Integer> basketCount = new HashMap<>();
+        int price = 0;
+        for (int i = 0; i < skus.length(); i++) {
+            char current = skus.charAt(i);
+            if (!priceMap.containsKey(current)) {
+                return -1;
+            }
+            basketCount.put(current, basketCount.getOrDefault(current, 0) + 1);
+            price += priceMap.get(current);
+        }
     }
 }
+
 
 
 
