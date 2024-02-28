@@ -55,13 +55,16 @@ public class CheckoutSolution {
             'E', new ArrayList<>()
         );
 
-        offers.get('A').add(new Offer(Type.DISCOUNT, 3, 130, null));
-        offers.get('A').add(new Offer(Type.DISCOUNT, 5, 130, null));
+        offers.get('A').add(new Offer(Type.DISCOUNT, 5, 50, null));
+        offers.get('A').add(new Offer(Type.DISCOUNT, 3, 20, null));
 
+        offers.get('B').add(new Offer(Type.DISCOUNT, 2, 15, null));
+        offers.get('E').add(new Offer(Type.GET_ONE_FREE, 2, 30, 'B'));
     }
 
     public Integer checkout(String skus) {
         Map<Character, Integer> maybeOfferCount = new HashMap<>();
+        Map<Character, Integer> basket = new HashMap<>();
         Set<Character> offerableSkusInBasket = new HashSet<>();
         int price = 0;
         for (int i = 0; i < skus.length(); i++) {
@@ -74,22 +77,39 @@ public class CheckoutSolution {
                 maybeOfferCount.put(current, maybeOfferCount.getOrDefault(current, 0) + 1);
                 offerableSkusInBasket.add(current);
             }
+
+            basket.put(current, basket.getOrDefault(current, 0) + 1);
+
             price += priceMap.get(current);
         }
 
         while (offerableSkusInBasket.size() > 0) {
-            for (Entry<Character, Integer> skuAndPrice: maybeOfferCount.entrySet()) {
-                    char sku = skuAndPrice.getKey();
-                    Offer offer = offers.get(sku);
-                    if (offer.number > skuAndPrice.getValue()) {
-                        offerableSkusInBasket.remove(skuAndPrice.getKey());
-                        continue;
+            for (Entry<Character, Integer> skuAndNum: maybeOfferCount.entrySet()) {
+                    char sku = skuAndNum.getKey();
+                    List<Offer> offerList = offers.get(sku);
+                    boolean matchingOffer = false;
+                    for (Offer offer: offerList) {
+                        if (offer.number <= skuAndNum.getValue()) {
+                            matchingOffer = true;
+                            maybeOfferCount.put(sku, skuAndNum.getValue() - offer.number);
+                            if (offer.type == Type.DISCOUNT) {
+                                price -= offer.price;
+                            } else {
+                                int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
+                                if (numberOfRemovableItems!= 0) {
+                                    basket.put(offer.freeItem, numberOfRemovableItems - 1);
+                                    price -= offer.price;
+                                }
+                            }
+                        }
                     }
-                    maybeOfferCount.put(sku, skuAndPrice.getValue() - offer.number);
-                    price -= offer.price;
+                    if (!matchingOffer) {
+                        offerableSkusInBasket.remove(sku);
+                    }
             }
         }
 
         return price;
     }
 }
+
