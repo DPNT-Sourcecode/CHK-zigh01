@@ -44,32 +44,70 @@ public class CheckoutSolution {
     private Map<Type, List<Character>> offers;
 
     public CheckoutSolution() {
-        priceMap = Map.of(
-            'A', 50,
-            'B', 30,
-            'C', 20,
-            'D', 15,
-            'E', 40,
-            'F', 10
-        );
-        offersDetails = Map.of(
-            'A', new ArrayList<>(),
-            'B', new ArrayList<>(),
-            'E', new ArrayList<>(),
-            'F', new ArrayList<>()
-        );
+        priceMap = new HashMap<>();
+        priceMap.put('A', 50);
+        priceMap.put('B', 30);
+        priceMap.put('C', 20);
+        priceMap.put('D', 15);
+        priceMap.put('E', 40);
+        priceMap.put('F', 10);
+        priceMap.put('G', 20);
+        priceMap.put('H', 10);
+        priceMap.put('I', 35);
+        priceMap.put('J', 60);
+        priceMap.put('K', 80);
+        priceMap.put('L', 90);
+        priceMap.put('M', 15);
+        priceMap.put('N', 40);
+        priceMap.put('O', 10);
+        priceMap.put('P', 50);
+        priceMap.put('Q', 30);
+        priceMap.put('R', 50);
+        priceMap.put('S', 30);
+        priceMap.put('T', 20);
+        priceMap.put('U', 40);
+        priceMap.put('V', 50);
+        priceMap.put('W', 20);
+        priceMap.put('X', 90);
+        priceMap.put('Y', 10);
+        priceMap.put('Z', 50);
+
+        offersDetails = new HashMap<>();
+        offersDetails.put('A', new ArrayList<>());
+        offersDetails.put('B', new ArrayList<>());
+        offersDetails.put('E', new ArrayList<>());
+        offersDetails.put('F', new ArrayList<>());
+        offersDetails.put('H', new ArrayList<>());
+        offersDetails.put('K', new ArrayList<>());
+        offersDetails.put('N', new ArrayList<>());
+        offersDetails.put('P', new ArrayList<>());
+        offersDetails.put('Q', new ArrayList<>());
+        offersDetails.put('R', new ArrayList<>());
+        offersDetails.put('U', new ArrayList<>());
+        offersDetails.put('V', new ArrayList<>());
 
         offers = Map.of(
-            Type.GET_ONE_FREE, List.of('E', 'F'),
-            Type.DISCOUNT, List.of('A', 'B')
+            Type.GET_ONE_FREE, List.of('E', 'F', 'N', 'R', 'U'),
+            Type.DISCOUNT, List.of('A', 'B', 'H', 'K', 'P', 'Q', 'V')
         );
 
-        offersDetails.get('A').add(new Offer(Type.DISCOUNT, 5, 50, null));
-        offersDetails.get('A').add(new Offer(Type.DISCOUNT, 3, 20, null));
+        offersDetails.get('A').add(new Offer(Type.DISCOUNT, 5,   priceMap.get('A') * 5 - 200, null));
+        offersDetails.get('A').add(new Offer(Type.DISCOUNT, 3, priceMap.get('A') * 3 - 130, null));
+        offersDetails.get('B').add(new Offer(Type.DISCOUNT, 2, priceMap.get('B') * 2 - 45, null));
+        offersDetails.get('H').add(new Offer(Type.DISCOUNT, 10, priceMap.get('H') * 10 - 80, null));
+        offersDetails.get('H').add(new Offer(Type.DISCOUNT, 5, priceMap.get('H') * 5 - 45, null));
+        offersDetails.get('K').add(new Offer(Type.DISCOUNT, 2, priceMap.get('K') * 2 - 150, null));
+        offersDetails.get('P').add(new Offer(Type.DISCOUNT, 5, priceMap.get('P') * 5 - 200, null));
+        offersDetails.get('Q').add(new Offer(Type.DISCOUNT, 3, priceMap.get('Q') * 3 - 80, null));
+        offersDetails.get('V').add(new Offer(Type.DISCOUNT, 3, priceMap.get('V') * 3 - 130, null));
+        offersDetails.get('V').add(new Offer(Type.DISCOUNT, 2, priceMap.get('V') * 2 - 90, null));
 
-        offersDetails.get('B').add(new Offer(Type.DISCOUNT, 2, 15, null));
-        offersDetails.get('E').add(new Offer(Type.GET_ONE_FREE, 2, 30, 'B'));
-        offersDetails.get('F').add(new Offer(Type.GET_ONE_FREE, 2, 10, 'F'));
+
+        offersDetails.get('E').add(new Offer(Type.GET_ONE_FREE, 2, priceMap.get('B'), 'B'));
+        offersDetails.get('F').add(new Offer(Type.GET_ONE_FREE, 2, priceMap.get('F'), 'F'));
+        offersDetails.get('N').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('M'), 'M'));
+        offersDetails.get('R').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('Q'), 'Q'));
+        offersDetails.get('U').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('U'), 'U'));
 
     }
 
@@ -156,3 +194,4 @@ public class CheckoutSolution {
         return deductions;
     }
 }
+
