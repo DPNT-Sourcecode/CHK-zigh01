@@ -123,7 +123,7 @@ public class CheckoutTest {
     priceMap.put('H', 10);
     priceMap.put('I', 35);
     priceMap.put('J', 60);
-    priceMap.put('K', 80);
+    priceMap.put('K', 70);
     priceMap.put('L', 90);
     priceMap.put('M', 15);
     priceMap.put('N', 40);
@@ -131,14 +131,14 @@ public class CheckoutTest {
     priceMap.put('P', 50);
     priceMap.put('Q', 30);
     priceMap.put('R', 50);
-    priceMap.put('S', 30);
+    priceMap.put('S', 20);
     priceMap.put('T', 20);
     priceMap.put('U', 40);
     priceMap.put('V', 50);
     priceMap.put('W', 20);
-    priceMap.put('X', 90);
-    priceMap.put('Y', 10);
-    priceMap.put('Z', 50);
+    priceMap.put('X', 17);
+    priceMap.put('Y', 20);
+    priceMap.put('Z', 21);
 
     for (Character sku: priceMap.keySet()) {
       assertThat(solution.checkout(sku + ""), equalTo(priceMap.get(sku)));
@@ -152,4 +152,5 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
+
 

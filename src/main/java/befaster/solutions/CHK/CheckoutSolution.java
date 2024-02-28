@@ -21,11 +21,11 @@ public class CheckoutSolution {
         }
         private int number;
         private int price;
-        private Character freeItem;
+        private Set<Character> freeItem;
 
         private Type type;
 
-        public Offer(Type type, int number, int price, Character freeItem) {
+        public Offer(Type type, int number, int price, Set<Character> freeItem) {
             this.number = number;
             this.price = price;
             this.freeItem = freeItem;
@@ -69,8 +69,8 @@ public class CheckoutSolution {
         priceMap.put('V', 50);
         priceMap.put('W', 20);
         priceMap.put('X', 17);
-        priceMap.put('Y', 10);
-        priceMap.put('Z', 50);
+        priceMap.put('Y', 20);
+        priceMap.put('Z', 21);
 
         offersDetails = new HashMap<>();
         offersDetails.put('A', new ArrayList<>());
@@ -103,10 +103,10 @@ public class CheckoutSolution {
         offersDetails.get('V').add(new Offer(Type.DISCOUNT, 2, priceMap.get('V') * 2 - 90, null));
 
 
-        offersDetails.get('E').add(new Offer(Type.GET_ONE_FREE, 2, priceMap.get('B'), 'B'));
-        offersDetails.get('F').add(new Offer(Type.GET_ONE_FREE, 2, priceMap.get('F'), 'F'));
-        offersDetails.get('N').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('M'), 'M'));
-        offersDetails.get('R').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('Q'), 'Q'));
+        offersDetails.get('E').add(new Offer(Type.GET_ONE_FREE, 2, priceMap.get('B'), Set.of('B')));
+        offersDetails.get('F').add(new Offer(Type.GET_ONE_FREE, 2, priceMap.get('F'), Set.of('F')));
+        offersDetails.get('N').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('M'), Set.of('M'));
+        offersDetails.get('R').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('Q'), Set.of('Q'));
         offersDetails.get('U').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('U'), 'U'));
     }
 
@@ -193,6 +193,7 @@ public class CheckoutSolution {
         return deductions;
     }
 }
+
 
 
 
