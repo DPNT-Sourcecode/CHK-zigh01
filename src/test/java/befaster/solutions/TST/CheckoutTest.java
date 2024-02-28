@@ -66,6 +66,13 @@ public class CheckoutTest {
   }
 
   @Test
+  public void testCheckoutWithAFreeItemTypeWithFreeItemTwiceAndTheItemIsTheSamePresent() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("FFFF");
+    assertThat(price, equalTo(30));
+  }
+
+  @Test
   public void testCheckoutWithAFreeItemTypeWithFreeItem() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("EEB");
@@ -107,6 +114,7 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
+
 
 
 
