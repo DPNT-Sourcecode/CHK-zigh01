@@ -39,7 +39,9 @@ public class CheckoutSolution {
     }
 
     private Map<Character, Integer> priceMap;
-    private Map<Character, List<Offer>> offers;
+    private Map<Character, List<Offer>> offersDetails;
+
+    private Map<Type, List<Character>> offers;
 
     public CheckoutSolution() {
         priceMap = Map.of(
@@ -49,17 +51,23 @@ public class CheckoutSolution {
             'D', 15,
             'E', 40
         );
-        offers = Map.of(
+        offersDetails = Map.of(
             'A', new ArrayList<>(),
             'B', new ArrayList<>(),
             'E', new ArrayList<>()
         );
 
-        offers.get('A').add(new Offer(Type.DISCOUNT, 5, 50, null));
-        offers.get('A').add(new Offer(Type.DISCOUNT, 3, 20, null));
+        offers = Map.of(
+            Type.GET_ONE_FREE, List.of('E'),
+            Type.DISCOUNT, List.of('A', 'B')
+        );
 
-        offers.get('B').add(new Offer(Type.DISCOUNT, 2, 15, null));
-        offers.get('E').add(new Offer(Type.GET_ONE_FREE, 2, 30, 'B'));
+        offersDetails.get('A').add(new Offer(Type.DISCOUNT, 5, 50, null));
+        offersDetails.get('A').add(new Offer(Type.DISCOUNT, 3, 20, null));
+
+        offersDetails.get('B').add(new Offer(Type.DISCOUNT, 2, 15, null));
+        offersDetails.get('E').add(new Offer(Type.GET_ONE_FREE, 2, 30, 'B'));
+
     }
 
     public Integer checkout(String skus) {
@@ -73,7 +81,7 @@ public class CheckoutSolution {
                 return -1;
             }
 
-            if (offers.containsKey(current)) {
+            if (offersDetails.containsKey(current)) {
                 maybeOfferCount.put(current, maybeOfferCount.getOrDefault(current, 0) + 1);
                 offerableSkusInBasket.add(current);
             }
@@ -86,7 +94,7 @@ public class CheckoutSolution {
         while (offerableSkusInBasket.size() > 0) {
             for (Entry<Character, Integer> skuAndNum: maybeOfferCount.entrySet()) {
                     char sku = skuAndNum.getKey();
-                    List<Offer> offerList = offers.get(sku);
+                    List<Offer> offerList = offersDetails.get(sku);
                     boolean matchingOffer = false;
                     for (Offer offer: offerList) {
                         if (offer.number <= skuAndNum.getValue()) {
@@ -96,7 +104,7 @@ public class CheckoutSolution {
                                 price -= offer.price;
                             } else {
                                 int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
-                                if (numberOfRemovableItems!= 0) {
+                                if (numberOfRemovableItems != 0) {
                                     basket.put(offer.freeItem, numberOfRemovableItems - 1);
                                     price -= offer.price;
                                 }
@@ -112,4 +120,5 @@ public class CheckoutSolution {
         return price;
     }
 }
+
 
