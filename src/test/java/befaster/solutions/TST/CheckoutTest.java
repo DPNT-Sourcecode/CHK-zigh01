@@ -50,6 +50,28 @@ public class CheckoutTest {
     int price = solution.checkout("EEB");
     assertThat(price, equalTo(80));
   }
+
+  @Test
+  public void testCheckoutWithAFreeItemTypeWithoutFreeItem() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("EE");
+    assertThat(price, equalTo(80));
+  }
+
+  @Test
+  public void testCheckoutWithAFreeItemTypeWithNotEnoughFreeItems() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("EEEEB");
+    assertThat(price, equalTo(160));
+  }
+
+  @Test
+  public void testCheckoutWithAFreeItemTypeWithEnoughFreeItems() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("EEEEBB");
+    assertThat(price, equalTo(160));
+  }
+
   @Test
   public void testCheckoutWithInvalid() {
     CheckoutSolution solution = new CheckoutSolution();
@@ -57,4 +79,5 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
+
 
