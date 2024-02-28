@@ -26,7 +26,7 @@ public class CheckoutTest {
   public void testCheckoutWithOfferAndMore() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("AAAAABCD");
-    assertThat(price, equalTo(295));
+    assertThat(price, equalTo(265));
   }
 
 
@@ -34,15 +34,22 @@ public class CheckoutTest {
   public void testCheckoutWithSameOfferTwice() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("AAAAAABCD");
-    assertThat(price, equalTo(325));
+    assertThat(price, equalTo(315));
   }
+
   @Test
   public void testCheckoutWithTwoDifferent() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("AAAAAABBCD");
-    assertThat(price, equalTo(340));
+    assertThat(price, equalTo(330));
   }
 
+  @Test
+  public void testCheckoutWithAFreeItemTypeWithFreeItem() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("EEB");
+    assertThat(price, equalTo(80));
+  }
   @Test
   public void testCheckoutWithInvalid() {
     CheckoutSolution solution = new CheckoutSolution();
@@ -50,3 +57,4 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
+
