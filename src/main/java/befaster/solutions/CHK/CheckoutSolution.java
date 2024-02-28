@@ -29,8 +29,8 @@ public class CheckoutSolution {
             'D',15
         );
         offers = Map.of(
-            'A', new Offer(3, 130),
-            'B', new Offer(2, 45)
+            'A', new Offer(3, priceMap.get('A') * 3 - 130),
+            'B', new Offer(2, priceMap.get('B') * 2 - 45)
         );
     }
 
@@ -46,6 +46,7 @@ public class CheckoutSolution {
 
             if (offers.containsKey(current)) {
                 maybeOfferCount.put(current, maybeOfferCount.getOrDefault(current, 0) + 1);
+                offerableSkusInBasket.add(current);
             }
             price += priceMap.get(current);
         }
@@ -59,14 +60,14 @@ public class CheckoutSolution {
                         continue;
                     }
                     maybeOfferCount.put(sku, skuAndPrice.getValue() - offer.number);
-                    price -= priceMap.get(sku) * offer.number;
-                    price += offer.price;
+                    price -= offer.price;
             }
         }
 
         return price;
     }
 }
+
 
 
 
