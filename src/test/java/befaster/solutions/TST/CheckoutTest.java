@@ -152,11 +152,28 @@ public class CheckoutTest {
   }
 
   @Test
-  public void testCheckoutWithBundleWithExtra() {
+  public void testCheckoutWithBundleWithExtraChoosesCheapestOptionForClient() {
     CheckoutSolution solution = new CheckoutSolution();
     int price = solution.checkout("XSTY");
     assertThat(price, equalTo(62));
   }
+
+  @Test
+  public void testCheckoutWithBundleWithTwoExtra() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("XSTYXT");
+    assertThat(price, equalTo(90));
+  }
+
+
+  @Test
+  public void testCheckoutWithBundleWithAllOffers() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("XSTAAAAAABBBCDEEFFF");
+    45 + 250 + 35 + 45 + 
+    assertThat(price, equalTo(90));
+  }
+
   @Test
   public void testCheckoutWithInvalid() {
     CheckoutSolution solution = new CheckoutSolution();
@@ -164,4 +181,5 @@ public class CheckoutTest {
     assertThat(price, equalTo(-1));
   }
 }
+
 
