@@ -19,7 +19,7 @@ public class CheckoutSolution {
     enum Type {
       DISCOUNT,
       GET_ONE_FREE,
-      BUNDLED_ITEMS_3
+      THREE_BUNDLED_ITEMS
     }
 
     private int number;
@@ -97,7 +97,7 @@ public class CheckoutSolution {
     offers = Map.of(
         Type.GET_ONE_FREE, List.of('E', 'F', 'N', 'R', 'U'),
         Type.DISCOUNT, List.of('A', 'B', 'H', 'K', 'P', 'Q', 'V'),
-        Type.BUNDLED_ITEMS_3, List.of('S', 'T', 'X', 'Y', 'Z')
+        Type.THREE_BUNDLED_ITEMS, List.of('S', 'T', 'X', 'Y', 'Z')
     );
 
     offersDetails.get('A').add(new Offer(Type.DISCOUNT, 5, priceMap.get('A') * 5 - 200, null));
@@ -118,40 +118,30 @@ public class CheckoutSolution {
     offersDetails.get('U').add(new Offer(Type.GET_ONE_FREE, 3, priceMap.get('U'), Set.of('U')));
 
     offersDetails.get('S')
-        .add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        .add(new Offer(Type.THREE_BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
     offersDetails.get('T')
-        .add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        .add(new Offer(Type.THREE_BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
     offersDetails.get('X')
-        .add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        .add(new Offer(Type.THREE_BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
     offersDetails.get('Y')
-        .add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        .add(new Offer(Type.THREE_BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
     offersDetails.get('Z')
-        .add(new Offer(Type.BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
+        .add(new Offer(Type.THREE_BUNDLED_ITEMS, 3, 45, Set.of('S', 'T', 'X', 'Y', 'Z')));
   }
 
   public Integer checkout(String skus) {
     Map<Character, Integer> basket = new HashMap<>();
     Set<Character> offerableSkusInBasket = new HashSet<>();
     int price = 0;
-//    List<Character> removableCharacters = offer.discountedItems.stream().toList();
-    Queue<int[]> bestRemovables = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
-//    for (char removable: removableCharacters) {
-//      bestRemovables.add(new int[] { removable - 'A', priceMap.get(removable)});
-//    }
-//
-//    if (bestRemovables.size() >= offer.number) {
-//      for (int i = 0; i < offer.number; i++) {
-//        int[] removableInterface =
-//      }
-//    }
+    Queue<int[]> threeBundleRemovables = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
     for (int i = 0; i < skus.length(); i++) {
       char current = skus.charAt(i);
       if (!priceMap.containsKey(current)) {
         return -1;
       }
 
-      if (offers.get(Type.BUNDLED_ITEMS).contains(current)) {
-        bestRemovables.add(new int[] { current - 'A', priceMap.get(current)});
+      if (offers.get(Type.THREE_BUNDLED_ITEMS).contains(current)) {
+        threeBundleRemovables.add(new int[] { current - 'A', priceMap.get(current)});
       } else if (offersDetails.containsKey(current)) {
         offerableSkusInBasket.add(current);
       }
@@ -168,7 +158,8 @@ public class CheckoutSolution {
         price -= getDeductionsFromOffer(
             offerableSkusInBasket,
             offerSku,
-            basket
+            basket,
+            threeBundleRemovables
         );
       }
     }
@@ -179,7 +170,8 @@ public class CheckoutSolution {
         price -= getDeductionsFromOffer(
             offerableSkusInBasket,
             offerSku,
-            basket
+            basket,
+            threeBundleRemovables
         );
       }
     }
@@ -190,9 +182,30 @@ public class CheckoutSolution {
   private int getDeductionsFromOffer(
       Set<Character> offerableSkusInBasket,
       Character offerSku,
-      Map<Character, Integer> basket
+      Map<Character, Integer> basket,
+      Queue<int[]> threeBundleRemovables
   ) {
+    
     int deductions = 0;
+    
+    while (threeBundleRemovables.size() >= 3) {
+      for (int i = 0; i < 3; i++) {
+        int[] skuAndPriceIntRep = threeBundleRemovables.poll();
+        char sku = (char) ('A' + skuAndPriceIntRep[0]);
+        int newNumber = basket.get(sku) - 1;
+
+        if (newNumber == 0) {
+          offerableSkusInBasket.remove(sku);
+          basket.remove(sku);
+        } else {
+          basket.put(sku, newNumber);
+        }
+
+        deductions += skuAndPriceIntRep[1];
+      }
+      deductions -= 45;
+    }
+
     while (offerableSkusInBasket.contains(offerSku)) {
       char sku = offerSku;
       int number = basket.getOrDefault(sku, 0);
@@ -215,8 +228,6 @@ public class CheckoutSolution {
               }
               deductions += offer.price;
             }
-          } else {
-
           }
         }
       }
@@ -227,7 +238,3 @@ public class CheckoutSolution {
     return deductions;
   }
 }
-
-
-
-

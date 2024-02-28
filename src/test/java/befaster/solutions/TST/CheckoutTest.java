@@ -144,7 +144,12 @@ public class CheckoutTest {
       assertThat(solution.checkout(sku + ""), equalTo(priceMap.get(sku)));
     }
   }
-
+  @Test
+  public void testCheckoutWithBundle() {
+    CheckoutSolution solution = new CheckoutSolution();
+    int price = solution.checkout("XTY");
+    assertThat(price, equalTo(45));
+  }
   @Test
   public void testCheckoutWithInvalid() {
     CheckoutSolution solution = new CheckoutSolution();
