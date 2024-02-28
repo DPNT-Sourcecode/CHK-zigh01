@@ -49,16 +49,18 @@ public class CheckoutSolution {
             'B', 30,
             'C', 20,
             'D', 15,
-            'E', 40
+            'E', 40,
+            'F', 10
         );
         offersDetails = Map.of(
             'A', new ArrayList<>(),
             'B', new ArrayList<>(),
-            'E', new ArrayList<>()
+            'E', new ArrayList<>(),
+            'F', new ArrayList<>()
         );
 
         offers = Map.of(
-            Type.GET_ONE_FREE, List.of('E'),
+            Type.GET_ONE_FREE, List.of('E', 'F'),
             Type.DISCOUNT, List.of('A', 'B')
         );
 
@@ -67,6 +69,7 @@ public class CheckoutSolution {
 
         offersDetails.get('B').add(new Offer(Type.DISCOUNT, 2, 15, null));
         offersDetails.get('E').add(new Offer(Type.GET_ONE_FREE, 2, 30, 'B'));
+        offersDetails.get('F').add(new Offer(Type.GET_ONE_FREE, 2, 10, 'F'));
 
     }
 
@@ -113,32 +116,6 @@ public class CheckoutSolution {
             }
         }
 
-//        while (offerableSkusInBasket.size() > 0) {
-//            for (Entry<Character, Integer> skuAndNum: maybeOfferCount.entrySet()) {
-//                    char sku = skuAndNum.getKey();
-//                    List<Offer> offerList = offersDetails.get(sku);
-//                    boolean matchingOffer = false;
-//                    for (Offer offer: offerList) {
-//                        if (offer.number <= skuAndNum.getValue()) {
-//                            matchingOffer = true;
-//                            maybeOfferCount.put(sku, skuAndNum.getValue() - offer.number);
-//                            if (offer.type == Type.DISCOUNT) {
-//                                price -= offer.price;
-//                            } else {
-//                                int numberOfRemovableItems = basket.getOrDefault(offer.freeItem, 0);
-//                                if (numberOfRemovableItems != 0) {
-//                                    basket.put(offer.freeItem, numberOfRemovableItems - 1);
-//                                    price -= offer.price;
-//                                }
-//                            }
-//                        }
-//                    }
-//                    if (!matchingOffer) {
-//                        offerableSkusInBasket.remove(sku);
-//                    }
-//            }
-//        }
-
         return price;
     }
 
@@ -179,6 +156,7 @@ public class CheckoutSolution {
         return deductions;
     }
 }
+
 
 
 
