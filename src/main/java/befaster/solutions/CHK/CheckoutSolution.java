@@ -87,10 +87,10 @@ public class CheckoutSolution {
     offersDetails.put('P', new ArrayList<>());
     offersDetails.put('Q', new ArrayList<>());
     offersDetails.put('R', new ArrayList<>());
-    offersDetails.put('U', new ArrayList<>());
-    offersDetails.put('V', new ArrayList<>());
     offersDetails.put('S', new ArrayList<>());
     offersDetails.put('T', new ArrayList<>());
+    offersDetails.put('U', new ArrayList<>());
+    offersDetails.put('V', new ArrayList<>());
     offersDetails.put('X', new ArrayList<>());
     offersDetails.put('Y', new ArrayList<>());
     offersDetails.put('Z', new ArrayList<>());
@@ -216,5 +216,6 @@ public class CheckoutSolution {
     return deductions;
   }
 }
+
 
 
